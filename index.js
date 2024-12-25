@@ -29,7 +29,7 @@ app.get("/hijri-today", (req, res) => {
     const hijri = hijriDate.toHijri(
       today.getFullYear(),
       today.getMonth() + 1,
-      today.getDate()
+      today.getDate() +1,
     );
 
     console.log("Hijri Date:", hijri); // طباعة التاريخ الهجري للتأكد
