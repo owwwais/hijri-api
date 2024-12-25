@@ -22,14 +22,14 @@ const hijriMonths = [
 // API للحصول على التاريخ الهجري لليوم
 app.get("/hijri-today", (req, res) => {
   try {
-    const today = new Date(); // تاريخ اليوم الميلادي
+    const today = new Date();
     const hijri = hijriDate.toHijri(
       today.getFullYear(),
       today.getMonth() + 1,
       today.getDate()
-    ); // تحويل إلى هجري
+    );
 
-    const monthName = hijriMonths[hijri.month - 1]; // اسم الشهر الهجري
+    const monthName = hijriMonths[hijri.month - 1];
 
     res.json({
       day: hijri.day,
@@ -41,12 +41,6 @@ app.get("/hijri-today", (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "حدث خطأ أثناء حساب التاريخ الهجري" });
   }
-});
-
-// بدء السيرفر
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
 });
 
 module.exports = app;
