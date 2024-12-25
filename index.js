@@ -19,6 +19,11 @@ const hijriMonths = [
   "ذو الحجة",
 ];
 
+// معالجة مسار الجذر "/"
+app.get("/", (req, res) => {
+  res.send("مرحبًا! يرجى زيارة /hijri-today للحصول على التاريخ الهجري لليوم.");
+});
+
 // API للحصول على التاريخ الهجري لليوم
 app.get("/hijri-today", (req, res) => {
   try {
