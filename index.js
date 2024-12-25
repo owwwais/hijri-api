@@ -19,31 +19,31 @@ const hijriMonths = [
   "ذو الحجة",
 ];
 
-// معالجة مسار الجذر "/"
-app.get("/", (req, res) => {
-  res.send("مرحبًا! يرجى زيارة /hijri-today للحصول على التاريخ الهجري لليوم.");
-});
-
 // API للحصول على التاريخ الهجري لليوم
 app.get("/hijri-today", (req, res) => {
   try {
-    const today = new Date();
+    const today = new Date(); // تاريخ اليوم الميلادي
     const hijri = hijriDate.toHijri(
       today.getFullYear(),
       today.getMonth() + 1,
       today.getDate()
     );
 
-    const monthName = hijriMonths[hijri.month - 1];
+    if (!hijri || !hijri.day || !hijri.month || !hijri.year) {
+      throw new Error("Error converting date to Hijri");
+    }
+
+    const monthName = hijriMonths[hijri.month - 1]; // اسم الشهر الهجري
 
     res.json({
       day: hijri.day,
       month: hijri.month,
-      monthName: monthName,
+      monthName: monthName || "Unknown",
       year: hijri.year,
       hijriDate: `${hijri.day} ${monthName} ${hijri.year}`,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "حدث خطأ أثناء حساب التاريخ الهجري" });
   }
 });
