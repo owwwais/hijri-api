@@ -3,7 +3,6 @@ const hijriDate = require("hijri-converter");
 
 const app = express();
 
-// أسماء الأشهر الهجرية
 const hijriMonths = [
   "محرم",
   "صفر",
@@ -19,21 +18,23 @@ const hijriMonths = [
   "ذو الحجة",
 ];
 
-// API للحصول على التاريخ الهجري لليوم
 app.get("/hijri-today", (req, res) => {
   try {
     const today = new Date(); // تاريخ اليوم الميلادي
+    console.log("Today's Gregorian date:", today);
+
     const hijri = hijriDate.toHijri(
       today.getFullYear(),
       today.getMonth() + 1,
       today.getDate()
     );
+    console.log("Converted Hijri date:", hijri);
 
     if (!hijri || !hijri.day || !hijri.month || !hijri.year) {
       throw new Error("Error converting date to Hijri");
     }
 
-    const monthName = hijriMonths[hijri.month - 1]; // اسم الشهر الهجري
+    const monthName = hijriMonths[hijri.month - 1];
 
     res.json({
       day: hijri.day,
@@ -43,8 +44,8 @@ app.get("/hijri-today", (req, res) => {
       hijriDate: `${hijri.day} ${monthName} ${hijri.year}`,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "حدث خطأ أثناء حساب التاريخ الهجري" });
+    console.error("Error occurred:", error);
+    res.status(500).json({ error: "حدث خطأ أثناء حساب التاريخ الهجري", details: error.message });
   }
 });
 
